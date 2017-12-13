@@ -2,12 +2,12 @@ FROM ubuntu:14.04
 
 RUN apt-get update -qq && apt-get install -y -qq\
   apache2 \
-  php5 \
-  php5-cli \
-  php5-gd \
-  php5-mysql \
+  php7 \
+  php7-cli \
+  php7-gd \
+  php7-mysql \
   php-pear \
-  php5-curl \
+  php7-curl \
   postfix \
   sudo \
   rsync \
@@ -42,7 +42,6 @@ RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
 RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
 
 COPY sudoers-aegir /etc/sudoers.d/aegir
-RUN chown root:root /etc/sudoers.d/aegir
 RUN chmod 0440 /etc/sudoers.d/aegir
 
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1b137f8bf6db3e79a38a5bc45324414a6b1f9df2/web/installer -O - -q | php -- --quiet
@@ -58,7 +57,7 @@ RUN chown aegir:aegir /var/log/aegir
 RUN echo 'Hello, Cloudrup.' > /var/log/aegir/system.log
 
 COPY httpd-foreground /usr/local/bin/httpd-foreground
-RUN chmod a+x /usr/local/bin/httpd-foreground
+RUN chmod +x /usr/local/bin/httpd-foreground
 
 USER aegir
 WORKDIR /var/aegir
