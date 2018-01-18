@@ -42,7 +42,7 @@ RUN chmod 750 /var/aegir/.ssh
 RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
 RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
 
-COPY sudoers-aegir /etc/sudoers.d/aegir
+#COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chown root:root /etc/sudoers.d/aegir
 RUN chmod 0440 /etc/sudoers.d/aegir
 

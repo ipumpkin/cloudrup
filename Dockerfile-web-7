@@ -46,7 +46,7 @@ RUN chmod 750 /var/aegir/.ssh
 RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
 RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
 
-COPY sudoers-aegir /etc/sudoers.d/aegir
+#COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chmod 0440 /etc/sudoers.d/aegir
 
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1b137f8bf6db3e79a38a5bc45324414a6b1f9df2/web/installer -O - -q | php -- --quiet
