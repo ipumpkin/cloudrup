@@ -62,7 +62,7 @@ RUN echo 'Hello, Cloudrup.' > /var/log/aegir/system.log
 COPY httpd-foreground /usr/local/bin/httpd-foreground
 RUN chmod a+x /usr/local/bin/httpd-foreground
 
-RUN systemctl enable ssh
+RUN service ssh enable
 
 USER aegir
 WORKDIR /var/aegir
