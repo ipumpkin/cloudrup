@@ -55,8 +55,8 @@ RUN mkdir /var/aegir/.ssh
 RUN chown aegir:aegir /var/aegir/.ssh -R
 RUN chmod 750 /var/aegir/.ssh
 
-#RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
-#RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
+RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
+RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
 
 COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chown root:root /etc/sudoers.d/aegir
