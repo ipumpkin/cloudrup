@@ -38,8 +38,8 @@ RUN apt-get update -qq && apt-get install -y -qq \
 RUN cd /tmp
 RUN git clone https://github.com/phpredis/phpredis
 RUN cd phpredis
-RUN phpize
 RUN ./configure
+RUN phpize
 RUN make
 RUN make install
 
