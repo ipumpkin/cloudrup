@@ -35,13 +35,13 @@ RUN apt-get update -qq && apt-get install -y -qq \
   openssh-server
 
 # Install redis extension
-RUN cd /tmp
-RUN git clone https://github.com/phpredis/phpredis
-RUN cd phpredis
-RUN ./configure
-RUN phpize
-RUN make
-RUN make install
+RUN cd /tmp \
+  && git clone https://github.com/phpredis/phpredis \
+  && cd phpredis \
+  && phpize \
+  && ./configure \
+  && make \
+  && make install
 
 RUN echo "extension=redis.so" > /etc/php/7.1/mods-available/redis.ini
 RUN ln -s /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/apache2/conf.d/30-redis.ini
