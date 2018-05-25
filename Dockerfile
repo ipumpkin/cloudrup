@@ -77,7 +77,7 @@ RUN chmod 0440 /etc/sudoers.d/aegir
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/1b137f8bf6db3e79a38a5bc45324414a6b1f9df2/web/installer -O - -q | php -- --quiet
 RUN cp composer.phar /usr/local/bin/composer
 
-RUN wget https://github.com/drush-ops/drush/releases/download/8.1.16/drush.phar -O - -q > /usr/local/bin/drush
+RUN wget https://github.com/drush-ops/drush/releases/download/8.1.17/drush.phar -O - -q > /usr/local/bin/drush
 RUN chmod +x /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/drush
 
@@ -107,7 +107,6 @@ RUN echo 'Hello, Aegir.' > /var/log/aegir/system.log
 #ENV PROVISION_VERSION 7.x-3.x
 #RUN mkdir -p /usr/share/drush/commands
 #RUN drush dl --destination=/usr/share/drush/commands provision-$PROVISION_VERSION -y
-RUN git clone git@github.com:ipumpkin/provision-1.git /usr/share/drush/commands/provision
 ENV REGISTRY_REBUILD_VERSION 7.x-2.5
 RUN drush dl --destination=/usr/share/drush/commands registry_rebuild-$REGISTRY_REBUILD_VERSION -y
 
