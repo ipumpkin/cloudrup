@@ -1,6 +1,11 @@
 #!/bin/bash
 
-HOSTNAME=`hostname --fqdn`
+if [ -z $HOSTNAME ];then
+	HOSTNAME=`hostname --fqdn`
+fi
+if [ -z $MYSQL_ROOT_NAME ];then
+	MYSQL_ROOT_NAME=root
+fi
 
 echo 'ÆGIR | Hello! '
 echo 'ÆGIR | When the database is ready, we will install Aegir with the following options:'
@@ -46,7 +51,7 @@ sudo service cron start
 # Returns true once mysql can connect.
 # Thanks to http://askubuntu.com/questions/697798/shell-script-how-to-run-script-after-mysql-is-ready
 mysql_ready() {
-    mysqladmin ping --host=$AEGIR_DATABASE_SERVER --user=root --password=$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
+    mysqladmin ping --host=$AEGIR_DATABASE_SERVER --user=$MYSQL_ROOT_NAME --password=$MYSQL_ROOT_PASSWORD > /dev/null 2>&1
 }
 
 while !(mysql_ready)
@@ -87,7 +92,7 @@ else
     --aegir_db_host=$AEGIR_DATABASE_SERVER \
     --aegir_db_pass=$MYSQL_ROOT_PASSWORD \
     --aegir_db_port=3306 \
-    --aegir_db_user=root \
+    --aegir_db_user=$MYSQL_ROOT_NAME \
     --aegir_db_grant_all_hosts=1 \
     --aegir_host=$HOSTNAME \
     --client_name=$AEGIR_CLIENT_NAME \
