@@ -110,6 +110,8 @@ RUN echo 'Hello, Aegir.' > /var/log/aegir/system.log
 ENV REGISTRY_REBUILD_VERSION 7.x-2.5
 RUN drush dl --destination=/usr/share/drush/commands registry_rebuild-$REGISTRY_REBUILD_VERSION -y
 
+RUN git clone https://github.com/ipumpkin/provision-1.git --branch cloudrup /usr/share/drush/commands/provision
+
 USER aegir
 
 RUN mkdir /var/aegir/config
