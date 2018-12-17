@@ -1,8 +1,5 @@
 FROM ubuntu:16.04
 
-RUN apt-get update -qq
-RUN apt-get install -y software-properties-common python-software-properties
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
 RUN apt-get update -qq && apt-get install -y -qq \
   apache2 \
   sudo \
@@ -45,14 +42,6 @@ RUN ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
 COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chown root:root /etc/sudoers.d/aegir
 RUN chmod 0440 /etc/sudoers.d/aegir
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN php -r "unlink('composer-setup.php');"
-
-RUN wget https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar -O - -q > /usr/local/bin/drush
-RUN chmod +x /usr/local/bin/composer
-RUN chmod +x /usr/local/bin/drush
 
 # Prepare Aegir Logs folder.
 RUN mkdir /var/log/aegir
