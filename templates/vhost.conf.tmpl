@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+
+  DocumentRoot "{{ getenv "APACHE_DOCUMENT_ROOT" "/var/www/html" }}"
+  ServerName {{ getenv "APACHE_SERVER_NAME" "default" }}
+  
+  <Location />
+      Require all granted
+  </Location>
+  
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>

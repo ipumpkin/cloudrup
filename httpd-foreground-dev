@@ -1,6 +1,40 @@
 #!/bin/bash
 
 set -e
+if [[ -n "${DEBUG}" ]]; then
+    set -x
+fi
+
+_gotpl() {
+    if [[ -f "/etc/gotpl/$1" ]]; then
+        gotpl "/etc/gotpl/$1" > "$2"
+    fi
+}
+
+# Backwards compatibility for old env vars names.
+_backwards_compatibility() {
+    declare -A vars
+    # vars[DEPRECATED]="ACTUAL"
+    vars[APACHE_SERVER_ROOT]="APACHE_DOCUMENT_ROOT"
+
+    for i in "${!vars[@]}"; do
+        # Use value from old var if it's not empty and the new is.
+        if [[ -n "${!i}" && -z "${!vars[$i]}" ]]; then
+            export ${vars[$i]}="${!i}"
+        fi
+    done
+}
+
+
+process_templates() {
+    _backwards_compatibility
+
+    _gotpl "vhost.conf.tmpl" "${APACHE_DIR}/sites-enabled/000-default.conf"
+
+}
+
+process_templates
+
 sudo service cron start
 sudo service ssh start
 sudo /usr/sbin/apache2ctl start

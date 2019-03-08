@@ -1,5 +1,9 @@
 FROM ubuntu:16.04
 
+ENV APACHE_VER="${APACHE_VER}" \
+    APP_ROOT="/var/www/html" \
+    APACHE_DIR="/etc/apache2"
+    
 RUN apt-get update -qq; \
     apt-get install -y software-properties-common python-software-properties; \
     LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php; \
@@ -34,9 +38,9 @@ RUN apt-get update -qq; \
   openssh-server \
   nodejs-legacy \
   npm; \
-  gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-alpine-linux-amd64-0.1.5.tar.gz"; \
+  gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-linux-amd64-0.1.5.tar.gz"; \
   wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
-  rm /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/*
 
 # Install redis extension
 RUN cd /tmp \
@@ -65,13 +69,11 @@ RUN wget https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar 
     chmod +x /usr/local/bin/composer; \
     chmod +x /usr/local/bin/drush
 
+COPY templates /etc/gotpl/
 COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
 
-RUN systemctl enable ssh
-
-WORKDIR /var/www/html
-VOLUME /var/www/html
+WORKDIR $APP_ROOT
 
 # docker-entrypoint.sh waits for mysql and runs hostmaster install
 ENTRYPOINT []
