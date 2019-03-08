@@ -3,9 +3,14 @@
   DocumentRoot "{{ getenv "APACHE_DOCUMENT_ROOT" "/var/www/html" }}"
   ServerName {{ getenv "APACHE_SERVER_NAME" "default" }}
   
-  <Location />
-      Require all granted
-  </Location>
+  RewriteEngine On
+  RewriteOptions inherit
+  
+  <Directory {{ getenv "APACHE_DOCUMENT_ROOT" "/var/www/html" }}>
+    Options +FollowSymLinks -Indexes
+    AllowOverride All
+    Require all granted
+  </Directory>
   
   ErrorLog ${APACHE_LOG_DIR}/error.log
   CustomLog ${APACHE_LOG_DIR}/access.log combined

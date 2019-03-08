@@ -57,7 +57,7 @@ RUN cd /tmp \
 
 RUN a2enmod rewrite; \
     a2enmod speling; \
-    ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/; \
+    a2enmod headers; \
     ln -sf /dev/stdout /var/log/apache2/access.log; \
     ln -sf /dev/stdout /var/log/apache2/other_vhosts_access.log
 
