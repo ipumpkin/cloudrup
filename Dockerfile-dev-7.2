@@ -1,0 +1,78 @@
+FROM ubuntu:16.04
+
+RUN apt-get update -qq; \
+    apt-get install -y software-properties-common python-software-properties; \
+    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php; \
+  apt-get update -qq && apt-get install -y -qq \
+  apache2 \
+  php7.2 \
+  php7.2-dev \
+  libapache2-mod-php7.2 \
+  php7.2-cli \
+  php7.2-opcache \
+  php7.2-json \
+  php7.2-xmlrpc \
+  php7.2-curl \
+  php7.2-ldap \
+  php7.2-bz2 \
+  php7.2-cgi \
+  php7.2-soap \
+  php7.2-common \
+  php7.2-mbstring \
+  php7.2-gd \
+  php7.2-intl \
+  php7.2-xml \
+  php7.2-mysql \
+  php7.2-zip \
+  sudo \
+  rsync \
+  git-core \
+  unzip \
+  wget \
+  mysql-client \
+  vim \
+  openssh-server \
+  nodejs-legacy \
+  npm; \
+  gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-alpine-linux-amd64-0.1.5.tar.gz"; \
+  wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
+  rm /var/lib/apt/lists/*
+
+# Install redis extension
+RUN cd /tmp \
+  && git clone https://github.com/phpredis/phpredis \
+  && cd phpredis \
+  && phpize \
+  && ./configure \
+  && make \
+  && make install \
+  && rm -rf /tmp/phpredis; \
+  echo "extension=redis.so" > /etc/php/7.2/mods-available/redis.ini; \
+  ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/apache2/conf.d/30-redis.ini; \
+  ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/cli/conf.d/30-redis.ini
+
+RUN a2enmod rewrite; \
+    a2enmod speling; \
+    ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/; \
+    ln -sf /dev/stdout /var/log/apache2/access.log; \
+    ln -sf /dev/stdout /var/log/apache2/other_vhosts_access.log
+
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
+    php -r "unlink('composer-setup.php');"
+
+RUN wget https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar -O - -q > /usr/local/bin/drush; \
+    chmod +x /usr/local/bin/composer; \
+    chmod +x /usr/local/bin/drush
+
+COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
+RUN chmod +x /usr/local/bin/httpd-foreground
+
+RUN systemctl enable ssh
+
+WORKDIR /var/www/html
+VOLUME /var/www/html
+
+# docker-entrypoint.sh waits for mysql and runs hostmaster install
+ENTRYPOINT []
+CMD ["httpd-foreground"]
