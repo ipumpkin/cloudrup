@@ -57,9 +57,7 @@ RUN cd /tmp \
 
 RUN a2enmod rewrite; \
     a2enmod speling; \
-    a2enmod headers; \
-    ln -sf /dev/stdout /var/log/apache2/access.log; \
-    ln -sf /dev/stdout /var/log/apache2/other_vhosts_access.log
+    a2enmod headers;
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
