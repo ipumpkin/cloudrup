@@ -40,6 +40,7 @@ RUN apt-get update -qq; \
   npm; \
   gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-linux-amd64-0.1.5.tar.gz"; \
   wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
+  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime; \
   rm -rf /var/lib/apt/lists/*
 
 # Install redis extension
