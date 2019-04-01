@@ -31,7 +31,9 @@ RUN apt-get update -qq && apt-get install -y -qq \
   wget \
   mysql-client \
   vim \
-  openssh-server
+  openssh-server; \
+  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime; \
+  rm -rf /var/lib/apt/lists/*
 
 # Install redis extension
 RUN cd /tmp \
@@ -94,6 +96,7 @@ RUN echo 'Hello, Cloudrup.' > /var/log/aegir/system.log
 
 COPY httpd-foreground /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
+COPY config/other-vhosts-access-log.conf /etc/apache2/conf-available/other-vhosts-access-log.conf
 
 RUN systemctl enable ssh
 
