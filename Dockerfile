@@ -3,7 +3,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq
 RUN apt-get install -y software-properties-common python-software-properties
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-RUN apt-get update -qq && apt-get install -y -qq\
+RUN export LC_ALL=C.UTF-8; \
+  apt-get update -qq && apt-get install -y -qq\
   apache2 \
   php7.1 \
   php7.1-dev \
