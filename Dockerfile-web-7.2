@@ -38,7 +38,7 @@ RUN export LC_ALL=C.UTF-8; \
 
 # Install redis extension
 RUN cd /tmp \
-  && git clone https://github.com/phpredis/phpredis \
+  && git clone --branch 4.3.0 https://github.com/phpredis/phpredis \
   && cd phpredis \
   && phpize \
   && ./configure \

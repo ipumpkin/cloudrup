@@ -1,20 +1,32 @@
 FROM ubuntu:16.04
 
+RUN apt-get update -qq
+RUN apt-get install -y software-properties-common python-software-properties
+RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:pinepain/libv8
 RUN export LC_ALL=C.UTF-8; \
-  apt-get update -qq && apt-get install -y -qq\
+  apt-get update -qq && apt-get install -y -qq \
   apache2 \
-  php7.0 \
-  php7.0-dev \
-  libapache2-mod-php7.0 \
-  php7.0-cli \
-  php7.0-common \
-  php7.0-mbstring \
-  php7.0-gd \
-  php7.0-intl \
-  php7.0-xml \
-  php7.0-mysql \
-  php7.0-mcrypt \
-  php7.0-zip \
+  php7.2 \
+  php7.2-dev \
+  php-pear \
+  libapache2-mod-php7.2 \
+  php7.2-cli \
+  php7.2-opcache \
+  php7.2-json \
+  php7.2-xmlrpc \
+  php7.2-curl \
+  php7.2-ldap \
+  php7.2-bz2 \
+  php7.2-cgi \
+  php7.2-soap \
+  php7.2-common \
+  php7.2-mbstring \
+  php7.2-gd \
+  php7.2-intl \
+  php7.2-xml \
+  php7.2-mysql \
+  php7.2-zip \
   sudo \
   rsync \
   git-core \
@@ -22,21 +34,41 @@ RUN export LC_ALL=C.UTF-8; \
   wget \
   mysql-client \
   vim \
-  openssh-server
+  libv8-6.6-dev \
+  openssh-server; \
+  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime; \
+  rm -rf /var/lib/apt/lists/*
 
 # Install redis extension
 RUN cd /tmp \
-  && git clone --branch 4.3.0 https://github.com/phpredis/phpredis \
+  && git clone https://github.com/phpredis/phpredis \
   && cd phpredis \
   && phpize \
   && ./configure \
   && make \
   && make install \
   && rm -rf /tmp/phpredis
-  
-RUN echo "extension=redis.so" > /etc/php/7.0/mods-available/redis.ini
-RUN ln -s /etc/php/7.0/mods-available/redis.ini /etc/php/7.0/apache2/conf.d/30-redis.ini
-RUN ln -s /etc/php/7.0/mods-available/redis.ini /etc/php/7.0/cli/conf.d/30-redis.ini
+
+RUN echo "extension=redis.so" > /etc/php/7.2/mods-available/redis.ini
+RUN ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/apache2/conf.d/30-redis.ini
+RUN ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/cli/conf.d/30-redis.ini
+
+# Install v8js extension
+RUN cd /tmp \
+  && git clone https://github.com/dreamfactorysoftware/v8-compiled.git \
+  && mkdir /opt/v8 \
+  && cp -R v8-compiled/ubuntu_16.04/PHP7.1/* /opt/v8/ \
+  && git clone https://github.com/phpv8/v8js --branch=php7 \
+  && cd v8js \
+  && phpize \
+  && ./configure --with-v8js=/opt/v8 \
+  && make \
+  && make install \
+  && rm -rf /tmp/v8js
+
+RUN echo "extension=v8js.so" > /etc/php/7.2/mods-available/v8js.ini
+RUN ln -s /etc/php/7.2/mods-available/v8js.ini /etc/php/7.2/apache2/conf.d/20-v8js.ini
+RUN ln -s /etc/php/7.2/mods-available/v8js.ini /etc/php/7.2/cli/conf.d/20-v8js.ini
 
 # Use --build-arg option when running docker build to set these variables.
 # If wish to "mount" a volume to your host, set AEGIR_UID and AEGIR_GIT to your local user's UID.
@@ -64,6 +96,7 @@ RUN chmod 750 /var/aegir/.ssh
 
 RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
 RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
+RUN ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
 
 COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chown root:root /etc/sudoers.d/aegir
@@ -84,6 +117,7 @@ RUN echo 'Hello, Cloudrup.' > /var/log/aegir/system.log
 
 COPY httpd-foreground /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
+COPY config/other-vhosts-access-log.conf /etc/apache2/conf-available/other-vhosts-access-log.conf
 
 RUN systemctl enable ssh
 
