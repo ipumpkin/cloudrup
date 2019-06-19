@@ -79,7 +79,7 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 
-RUN wget https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar -O - -q > /usr/local/bin/drush
+RUN wget https://github.com/drush-ops/drush/releases/download/8.2.3/drush.phar -O - -q > /usr/local/bin/drush
 RUN chmod +x /usr/local/bin/composer
 RUN chmod +x /usr/local/bin/drush
 
@@ -113,6 +113,7 @@ ENV REGISTRY_REBUILD_VERSION 7.x-2.5
 RUN drush dl --destination=/usr/share/drush/commands registry_rebuild-$REGISTRY_REBUILD_VERSION -y
 
 RUN git clone https://github.com/ipumpkin/provision-1.git --branch cloudrup /usr/share/drush/commands/provision
+RUN systemctl enable ssh
 
 USER aegir
 

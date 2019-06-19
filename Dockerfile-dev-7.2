@@ -66,11 +66,11 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; \
     php composer-setup.php --install-dir=/usr/local/bin --filename=composer; \
     php -r "unlink('composer-setup.php');"
 
-RUN wget https://github.com/drush-ops/drush/releases/download/8.1.18/drush.phar -O - -q > /usr/local/bin/drush; \
+RUN wget https://github.com/drush-ops/drush/releases/download/8.2.3/drush.phar -O - -q > /usr/local/bin/drush; \
     chmod +x /usr/local/bin/composer; \
     chmod +x /usr/local/bin/drush; \
     composer config -g repo.packagist composer https://packagist.phpcomposer.com
-
+    
 COPY templates /etc/gotpl/
 COPY config/php.dev.ini /etc/php/7.2/apache2/php.ini
 COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
