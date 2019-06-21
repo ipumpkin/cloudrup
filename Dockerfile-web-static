@@ -52,6 +52,7 @@ RUN echo 'Hello, Cloudrup.' > /var/log/aegir/system.log
 COPY httpd-foreground /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
 COPY config/other-vhosts-access-log.conf /etc/apache2/conf-available/other-vhosts-access-log.conf
+COPY config/security.conf /etc/apache2/conf-available/security.conf
 
 RUN systemctl enable ssh
 
