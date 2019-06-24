@@ -1,6 +1,9 @@
 FROM ubuntu:16.04
 
 RUN export LC_ALL=C.UTF-8; \
+  apt-get update -qq; \
+  apt-get install -y software-properties-common python-software-properties; \
+  add-apt-repository -y ppa:ondrej/apache2; \
   apt-get update -qq && apt-get install -y -qq \
   apache2 \
   sudo \
@@ -25,8 +28,12 @@ RUN addgroup --gid $AEGIR_UID aegir
 RUN adduser --uid $AEGIR_UID --gid $AEGIR_UID --system --home /var/aegir aegir
 RUN adduser aegir www-data
 RUN usermod aegir -s /bin/bash
-RUN a2enmod rewrite
-RUN a2enmod speling
+
+RUN a2enmod rewrite; \
+    a2enmod speling; \
+    a2enmod proxy; \
+    a2enmod proxy_http; \
+    a2enmod headers
 
 # Save a symlink to the /var/aegir/config/docker.conf file.
 RUN mkdir -p /var/aegir/config
@@ -38,7 +45,6 @@ RUN chmod 750 /var/aegir/.ssh
 
 RUN ln -sf /var/aegir/config/apache.conf /etc/apache2/conf-available/aegir.conf
 RUN ln -sf /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir.conf
-RUN ln -s /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
 
 COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chown root:root /etc/sudoers.d/aegir

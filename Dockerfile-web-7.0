@@ -1,6 +1,10 @@
 FROM ubuntu:16.04
 
 RUN export LC_ALL=C.UTF-8; \
+  apt-get update -qq; \
+  apt-get install -y software-properties-common python-software-properties; \
+  add-apt-repository -y ppa:ondrej/php; \
+  add-apt-repository -y ppa:ondrej/apache2; \
   apt-get update -qq && apt-get install -y -qq\
   apache2 \
   php7.0 \
