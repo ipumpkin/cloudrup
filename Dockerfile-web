@@ -1,5 +1,6 @@
 FROM ubuntu:14.04
 
+ENV LANG C.UTF-8
 RUN export LC_ALL=C.UTF-8; \
     apt-get update -qq && apt-get install -y -qq\
   apache2 \
