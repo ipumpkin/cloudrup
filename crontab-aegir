@@ -1,0 +1,3 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+* * * * * /usr/bin/env php /usr/local/bin/drush '@hm' hosting-dispatch  > /dev/null 2>&1
