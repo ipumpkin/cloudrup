@@ -8,6 +8,7 @@ RUN export LC_ALL=C.UTF-8; \
   add-apt-repository -y ppa:ondrej/php; \
   apt-get update -qq && apt-get install -y -qq \
   apache2 \
+<<<<<<< HEAD
   php7.2 \
   php7.2-dev \
   libapache2-mod-php7.2 \
@@ -29,6 +30,30 @@ RUN export LC_ALL=C.UTF-8; \
   php7.2-zip \
   php7.2-fpm \
   php7.2-imap \
+=======
+  php7.1 \
+  php7.1-dev \
+  libapache2-mod-php7.1 \
+  php7.1-cli \
+  php7.1-opcache \
+  php7.1-json \
+  php7.1-xmlrpc \
+  php7.1-curl \
+  php7.1-ldap \
+  php7.1-bz2 \
+  php7.1-cgi \
+  php7.1-soap \
+  php7.1-common \
+  php7.1-mbstring \
+  php7.1-gd \
+  php7.1-intl \
+  php7.1-xml \
+  php7.1-mysql \
+  php7.1-mcrypt \
+  php7.1-zip \
+  php7.1-fpm \
+  php7.1-imap \
+>>>>>>> parent of 2e45409... update master to 7.2
   libpcre3-dev \
   php-sqlite3 \
   php-apcu \
@@ -53,9 +78,9 @@ RUN cd /tmp \
   && make install \
   && rm -rf /tmp/phpredis
 
-RUN echo "extension=redis.so" > /etc/php/7.2/mods-available/redis.ini
-RUN ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/apache2/conf.d/30-redis.ini
-RUN ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/cli/conf.d/30-redis.ini
+RUN echo "extension=redis.so" > /etc/php/7.1/mods-available/redis.ini
+RUN ln -s /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/apache2/conf.d/30-redis.ini
+RUN ln -s /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/cli/conf.d/30-redis.ini
 
 # Use --build-arg option when running docker build to set these variables.
 # If wish to "mount" a volume to your host, set AEGIR_UID and AEGIR_GIT to your local user's UID.
