@@ -26,7 +26,6 @@ RUN export LC_ALL=C.UTF-8; \
   php7.2-intl \
   php7.2-xml \
   php7.2-mysql \
-  php7.2-mcrypt \
   php7.2-zip \
   php7.2-fpm \
   php7.2-imap \
@@ -41,7 +40,8 @@ RUN export LC_ALL=C.UTF-8; \
   wget \
   mysql-client \
   vim \
-  openssh-server
+  openssh-server; \
+  rm -rf /var/lib/apt/lists/*
 
 # Install redis extension
 RUN cd /tmp \
