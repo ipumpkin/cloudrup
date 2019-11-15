@@ -78,6 +78,10 @@ RUN ln -s /etc/apache2/conf-available/aegir.conf /etc/apache2/conf-enabled/aegir
 COPY sudoers-aegir /etc/sudoers.d/aegir
 RUN chmod 0440 /etc/sudoers.d/aegir
 
+COPY crontab-aegir /etc/cron.d/aegir
+RUN chmod 0644 /etc/cron.d/aegir
+RUN crontab -u aegir /etc/cron.d/aegir
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
