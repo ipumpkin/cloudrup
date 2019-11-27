@@ -29,7 +29,6 @@ RUN export LC_ALL=C.UTF-8; \
   php7.2-zip \
   php7.2-fpm \
   php7.2-imap \
-  php7.2-pcntl \
   libpcre3-dev \
   php-sqlite3 \
   php-apcu \
