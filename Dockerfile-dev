@@ -90,7 +90,6 @@ RUN adduser --uid $AEGIR_UID --gid $AEGIR_UID --system --home /var/aegir aegir
 RUN adduser aegir www-data
 RUN usermod aegir -s /bin/bash
 
-USER aegir
 WORKDIR $APP_ROOT
 
 # docker-entrypoint.sh waits for mysql and runs hostmaster install
