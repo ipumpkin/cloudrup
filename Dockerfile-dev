@@ -80,6 +80,17 @@ COPY config/php.dev.ini /etc/php/7.2/apache2/php.ini
 COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
 
+ARG AEGIR_UID=1000
+ENV AEGIR_UID ${AEGIR_UID:-1000}
+
+RUN echo "Creating user aegir with UID $AEGIR_UID and GID $AEGIR_GID"
+
+RUN addgroup --gid $AEGIR_UID aegir
+RUN adduser --uid $AEGIR_UID --gid $AEGIR_UID --system --home /var/aegir aegir
+RUN adduser aegir www-data
+RUN usermod aegir -s /bin/bash
+
+USER aegir
 WORKDIR $APP_ROOT
 
 # docker-entrypoint.sh waits for mysql and runs hostmaster install
