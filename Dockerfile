@@ -30,6 +30,7 @@ RUN export LC_ALL=C.UTF-8; \
   php7.1-zip \
   php7.1-fpm \
   php7.1-imap \
+  php7.1-bcmath \
   libpcre3-dev \
   php-sqlite3 \
   php-apcu \
