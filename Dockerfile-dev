@@ -4,7 +4,7 @@ ENV LANG C.UTF-8
 ENV APACHE_VER="${APACHE_VER}" \
     APP_ROOT="/var/www/html" \
     APACHE_DIR="/etc/apache2"
-    
+
 RUN export LC_ALL=C.UTF-8; \
     apt-get update -qq; \
     apt-get install -y software-properties-common python-software-properties; \
@@ -32,6 +32,7 @@ RUN export LC_ALL=C.UTF-8; \
   php7.2-mysql \
   php7.2-zip \
   php7.2-bcmath \
+  php7.2-xdebug \
   sudo \
   rsync \
   git-core \
@@ -74,7 +75,7 @@ RUN wget https://github.com/drush-ops/drush/releases/download/8.2.3/drush.phar -
     chmod +x /usr/local/bin/composer; \
     chmod +x /usr/local/bin/drush; \
     composer config -g repo.packagist composer https://packagist.phpcomposer.com
-    
+
 COPY templates /etc/gotpl/
 COPY config/php.dev.ini /etc/php/7.2/apache2/php.ini
 COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
