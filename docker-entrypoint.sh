@@ -126,6 +126,9 @@ echo "ÆGIR | Clear Hostmaster caches ... "
 drush cc drush
 drush @hostmaster cc all
 
+echo "ÆGIR | Clear Hosting queues locks ... "
+drush @hostmaster sqlq "delete from semaphore where name like 'hosting_queue_%_running'"
+
 # Run whatever is the Docker CMD, typically drush @hostmaster hosting-queued
 echo "ÆGIR | Running Docker Command '$@' ..."
 
