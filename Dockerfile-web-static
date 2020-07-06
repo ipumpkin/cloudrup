@@ -32,6 +32,7 @@ RUN usermod aegir -s /bin/bash
 
 RUN a2enmod rewrite; \
     a2enmod speling; \
+    a2enmod ssl; \
     a2enmod proxy; \
     a2enmod proxy_http; \
     a2enmod headers
