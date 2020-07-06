@@ -53,6 +53,7 @@ RUN ln -s /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/apache2/conf.d/30-r
 RUN ln -s /etc/php/7.1/mods-available/redis.ini /etc/php/7.1/cli/conf.d/30-redis.ini
 
 RUN a2enmod rewrite; \
+  a2enmod ssl; \
   a2enmod headers
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
