@@ -12,27 +12,27 @@ RUN export LC_ALL=C.UTF-8; \
     add-apt-repository -y ppa:ondrej/apache2; \
   apt-get update -qq && apt-get install -y -qq \
   apache2 \
-  php7.2 \
-  php7.2-dev \
-  libapache2-mod-php7.2 \
-  php7.2-cli \
-  php7.2-opcache \
-  php7.2-json \
-  php7.2-xmlrpc \
-  php7.2-curl \
-  php7.2-ldap \
-  php7.2-bz2 \
-  php7.2-cgi \
-  php7.2-soap \
-  php7.2-common \
-  php7.2-mbstring \
-  php7.2-gd \
-  php7.2-intl \
-  php7.2-xml \
-  php7.2-mysql \
-  php7.2-zip \
-  php7.2-bcmath \
-  php7.2-xdebug \
+  php7.3 \
+  php7.3-dev \
+  libapache2-mod-php7.3 \
+  php7.3-cli \
+  php7.3-opcache \
+  php7.3-json \
+  php7.3-xmlrpc \
+  php7.3-curl \
+  php7.3-ldap \
+  php7.3-bz2 \
+  php7.3-cgi \
+  php7.3-soap \
+  php7.3-common \
+  php7.3-mbstring \
+  php7.3-gd \
+  php7.3-intl \
+  php7.3-xml \
+  php7.3-mysql \
+  php7.3-zip \
+  php7.3-bcmath \
+  php7.3-xdebug \
   sudo \
   rsync \
   git-core \
@@ -57,9 +57,9 @@ RUN cd /tmp \
   && make \
   && make install \
   && rm -rf /tmp/phpredis; \
-  echo "extension=redis.so" > /etc/php/7.2/mods-available/redis.ini; \
-  ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/apache2/conf.d/30-redis.ini; \
-  ln -s /etc/php/7.2/mods-available/redis.ini /etc/php/7.2/cli/conf.d/30-redis.ini
+  echo "extension=redis.so" > /etc/php/7.3/mods-available/redis.ini; \
+  ln -s /etc/php/7.3/mods-available/redis.ini /etc/php/7.3/apache2/conf.d/30-redis.ini; \
+  ln -s /etc/php/7.3/mods-available/redis.ini /etc/php/7.3/cli/conf.d/30-redis.ini
 
 RUN a2enmod rewrite; \
     a2enmod speling; \
@@ -78,7 +78,7 @@ RUN wget https://github.com/drush-ops/drush/releases/download/8.2.3/drush.phar -
     composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 COPY templates /etc/gotpl/
-COPY config/php.dev.ini /etc/php/7.2/apache2/php.ini
+COPY config/php.dev.ini /etc/php/7.3/apache2/php.ini
 COPY httpd-foreground-dev /usr/local/bin/httpd-foreground
 RUN chmod +x /usr/local/bin/httpd-foreground
 
